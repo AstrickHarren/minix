@@ -158,10 +158,21 @@ in
         "$mod, K, movefocus, u"
         "$mod, L, movefocus, r"
 
+        "$mod, Left, movefocus, l"
+        "$mod, Down, movefocus, d"
+        "$mod, Up, movefocus, u"
+        "$mod, Right, movefocus, r"
+
         "$mod CTRL, H, workspace, -1"
         "$mod CTRL, L, workspace, +1"
         "$mod SHIFT CTRL, H, movetoworkspace, -1"
         "$mod SHIFT CTRL, L, movetoworkspace, +1"
+
+        "$mod CTRL, Left, workspace, -1"
+        "$mod CTRL, Right, workspace, +1"
+        "$mod SHIFT CTRL, Left, movetoworkspace, -1"
+        "$mod SHIFT CTRL, Right, movetoworkspace, +1"
+
         "$mod, Tab, workspace, previous"
       ] ++ bind_switch_workspace;
       bindl = [
@@ -174,6 +185,7 @@ in
         "$mod, Minus, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
       ];
       bindm = [
         "$mod, mouse:272, movewindow"
