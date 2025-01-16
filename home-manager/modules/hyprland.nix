@@ -180,6 +180,11 @@ in
         "$mod, mouse:273, resizewindow"
       ];
 
+      # Make xwayland apps like vscode scale wall
+      xwayland {
+        force_zero_scaling = true
+      }
+
       misc = {
         focus_on_activate = true;
       };
