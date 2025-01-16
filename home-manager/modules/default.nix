@@ -14,11 +14,13 @@ let
     librewolf = ./librewolf;
     hyprland = ./hyprland.nix;
     hyprlock = ./hyprlock.nix;
+    hyprshot = ./hyprshot.nix;
     kitty = ./kitty.nix;
     nixvim = ./nixvim;
     lang.rust = ./lang/rust.nix;
     ignis = ./ignis.nix;
     clipse = ./clipse.nix;
+    betterfox = ./betterfox.nix;
   };
 
   enableOptions =

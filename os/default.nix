@@ -83,6 +83,8 @@
           };
         };
 
+        services.upower.enable = true;
+
         users.users.${settings.userName} = {
           isNormalUser = true;
           extraGroups = [
