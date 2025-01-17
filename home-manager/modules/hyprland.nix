@@ -129,6 +129,7 @@ in
             (lib.mkIf (!capsAsEsc) "grp:alt_shift_toggle")
           ];
           touchpad.natural_scroll = true;
+          numlock_by_default = true;
         };
 
       cursor = {
@@ -162,6 +163,9 @@ in
         "$mod, Down, movefocus, d"
         "$mod, Up, movefocus, u"
         "$mod, Right, movefocus, r"
+
+        "$mod, mouse_down, workspace, -1"
+        "$mod, mouse_up, workspace, +1"
 
         "$mod CTRL, H, workspace, -1"
         "$mod CTRL, L, workspace, +1"
