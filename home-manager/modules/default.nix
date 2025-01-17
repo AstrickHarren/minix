@@ -21,6 +21,7 @@ let
     ignis = ./ignis.nix;
     clipse = ./clipse.nix;
     betterfox = ./betterfox.nix;
+    darkMode = ./dark_mode.nix;
   };
 
   enableOptions =
