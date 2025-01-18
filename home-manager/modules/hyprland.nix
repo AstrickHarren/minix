@@ -20,7 +20,7 @@ let
   );
 in
 {
-  options.nixbox = {
+  options.icenix = {
     keyboards.capsAsEsc = lib.mkEnableOption "mapping capslock to escape";
     keyboards.layouts = lib.mkOption {
       type = lib.types.attrs;
@@ -95,8 +95,8 @@ in
 
       input =
         let
-          layouts = config.nixbox.keyboards.layouts;
-          capsAsEsc = config.nixbox.keyboards.capsAsEsc;
+          layouts = config.icenix.keyboards.layouts;
+          capsAsEsc = config.icenix.keyboards.capsAsEsc;
 
           kb_layout =
             let
