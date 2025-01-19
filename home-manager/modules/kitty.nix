@@ -42,6 +42,8 @@ in
         map ctrl+shift+f send_key ctrl+shift+f
         map ctrl+c copy_and_clear_or_interrupt
         map ctrl+v paste_from_clipboard
+        sync_to_monitor no
+        linux_display_server wayland
 
         modify_font underline_position ${toString cfg.modifyFont.underlinePosition}
         modify_font strikethrough_position ${toString cfg.modifyFont.strikeThroughPosition}
