@@ -22,6 +22,8 @@ let
     clipse = ./clipse.nix;
     betterfox = ./betterfox.nix;
     darkMode = ./dark_mode.nix;
+
+    icenix-cli = ./icenix-cli;
   };
 
   enableOptions =
