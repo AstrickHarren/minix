@@ -128,7 +128,10 @@ in
             (lib.mkIf capsAsEsc "caps:escape, grp:alt_shift_toggle")
             (lib.mkIf (!capsAsEsc) "grp:alt_shift_toggle")
           ];
-          touchpad.natural_scroll = true;
+          touchpad = {
+            natural_scroll = true;
+            scroll_factor = 0.2;
+          };
           numlock_by_default = true;
         };
 
@@ -140,6 +143,8 @@ in
       gestures = {
         workspace_swipe = true;
         workspace_swipe_min_fingers = true;
+        workspace_swipe_distance = 500;
+        workspace_swipe_min_speed_to_force = 10;
       };
 
       binds = {

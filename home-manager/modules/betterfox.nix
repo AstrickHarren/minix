@@ -293,6 +293,11 @@
         "findbar.highlightAll" = true;
         "layout.word_select.eat_space_to_next_word" = false;
         "sidebar.verticalTabs" = true;
+
+        /**
+          SWIPE **
+        */
+        "widget.swipe.page-size" = 20.0;
       };
     in
     {
