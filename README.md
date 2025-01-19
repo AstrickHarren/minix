@@ -49,12 +49,18 @@ home-manager switch --flake ~/.config/nix
 
 If there is a change made to IceNix, you can update your subscription by running
 ```sh
+icenix sync home # pulls and updates user-level changes
+icenix sync os # pulls and updates os-level changes
+```
+
+Equivalently, if you need more control, try running
+```sh
 icenix update
 ```
-Rebuild your NixOS and/or home manager and you'll see the effect. To do this, try
-use the icenix-cli by
+and 
 
 ```sh
 icenix build home # equivalent to `home-manager switch --flake ~/.config/nix`
 icenix build os # equivalent to `sudo nixos-rebuild switch --flake ~/.config/nix`
 ```
+to rebuild your NixOS and/or home manager and you'll see the effect.

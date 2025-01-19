@@ -28,6 +28,7 @@ icenix_usage() {
   printf "%s\n" "$(bold "Commands:")"
   printf "  %s   Update IceNix\n" "$(green "update")"
   printf "  %s   Rebuild your NixOS\n" "$(green "build") "
+  printf "  %s   Update and rebuild\n" "$(green "sync")  "
   echo
 
   # :command.long_usage
@@ -149,6 +150,84 @@ icenix_build_os_usage() {
     # :command.usage_examples
     printf "%s\n" "$(bold "Examples:")"
     printf "  icenix update os\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+icenix_sync_usage() {
+  printf "icenix sync - Update and rebuild\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  icenix sync COMMAND\n"
+  printf "  icenix sync [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   sync user-level packages (managed by home-manager)\n" "$(green "home")"
+  printf "  %s   sync packages (not managed by home-manager)\n" "$(green "os")  "
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+icenix_sync_home_usage() {
+  printf "icenix sync home - sync user-level packages (managed by home-manager)\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  icenix sync home\n"
+  printf "  icenix sync home --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  icenix sync home\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+icenix_sync_os_usage() {
+  printf "icenix sync os - sync packages (not managed by home-manager)\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  icenix sync os\n"
+  printf "  icenix sync os --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  icenix sync os\n"
     echo
 
   fi
@@ -293,6 +372,24 @@ icenix_build_os_command() {
 
 }
 
+# :command.function
+icenix_sync_home_command() {
+
+  # src/sync_home_command.sh
+  nix flake update icenix --flake $FLAKE
+  home-manager switch --flake $FLAKE
+
+}
+
+# :command.function
+icenix_sync_os_command() {
+
+  # src/sync_os_command.sh
+  nix flake update icenix --flake $FLAKE
+  nixos-rebuild switch --flake $FLAKE
+
+}
+
 # :command.parse_requirements
 parse_requirements() {
   # :command.fixed_flags_filter
@@ -342,6 +439,13 @@ parse_requirements() {
       action="build"
       shift
       icenix_build_parse_requirements "$@"
+      shift $#
+      ;;
+
+    sync)
+      action="sync"
+      shift
+      icenix_sync_parse_requirements "$@"
       shift $#
       ;;
 
@@ -591,6 +695,171 @@ icenix_build_os_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+icenix_sync_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        icenix_sync_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    home)
+      action="home"
+      shift
+      icenix_sync_home_parse_requirements "$@"
+      shift $#
+      ;;
+
+    os)
+      action="os"
+      shift
+      icenix_sync_os_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      icenix_sync_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+icenix_sync_home_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        icenix_sync_home_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="sync home"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+icenix_sync_os_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      --help | -h)
+        long_usage=yes
+        icenix_sync_os_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="sync os"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
 # :command.initialize
 initialize() {
   version="0.3.0"
@@ -614,6 +883,9 @@ run() {
     "build") icenix_build_command ;;
     "build home") icenix_build_home_command ;;
     "build os") icenix_build_os_command ;;
+    "sync") icenix_sync_command ;;
+    "sync home") icenix_sync_home_command ;;
+    "sync os") icenix_sync_os_command ;;
   esac
 }
 

@@ -20,6 +20,19 @@ commands:
       examples:
         icenix update os
 
+- name: sync
+  help: Update and rebuild
+  commands:
+    - name: home
+      help: sync user-level packages (managed by home-manager)
+      examples:
+        icenix sync home
+
+    - name: os
+      help: sync packages (not managed by home-manager)
+      examples:
+        icenix sync os
+
 
 environment_variables:
   - name: FLAKE
