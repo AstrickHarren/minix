@@ -38,8 +38,6 @@ cp /etc/nixos/hardware-configuration.nix hardware.nix
 > Make sure you read the example thoroughly and change config accordingly before the next step!
 > There are plently of places you might want to change, most obviously the userName and hostName
 
-## Build
-
 Now you are good to go! Run the following commands to build your NixOS and home manager!
 
 ```sh
@@ -47,11 +45,16 @@ sudo nixos-rebuild switch --flake ~/.config/nix
 home-manager switch --flake ~/.config/nix
 ```
 
-## Update
+## Subscription
 
 If there is a change made to IceNix, you can update your subscription by running
 ```sh
-nix flake update icenix
+icenix update
 ```
-under `~/.config/nix`. This will update you to the newest version of IceNix and any 
-dependency of IceNix. Rebuild your NixOS and/or home manager and you'll see the effect.
+Rebuild your NixOS and/or home manager and you'll see the effect. To do this, try
+use the icenix-cli by
+
+```sh
+icenix build home # equivalent to `home-manager switch --flake ~/.config/nix`
+icenix build os # equivalent to `sudo nixos-rebuild switch --flake ~/.config/nix`
+```
