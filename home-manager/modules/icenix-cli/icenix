@@ -368,7 +368,7 @@ icenix_build_home_command() {
 icenix_build_os_command() {
 
   # src/build_os_command.sh
-  nixos-rebuild switch --flake $FLAKE
+  sudo nixos-rebuild switch --flake $FLAKE
 
 }
 
@@ -386,7 +386,7 @@ icenix_sync_os_command() {
 
   # src/sync_os_command.sh
   nix flake update icenix --flake $FLAKE
-  nixos-rebuild switch --flake $FLAKE
+  sudo nixos-rebuild switch --flake $FLAKE
 
 }
 
