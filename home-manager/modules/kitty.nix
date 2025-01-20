@@ -34,6 +34,7 @@ in
         tab_bar_edge = "bottom";
 
         window_padding_width = 20;
+        touch_scroll_multiplier = 7.0;
       };
 
       extraConfig = ''
